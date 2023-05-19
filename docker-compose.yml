@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  redis:
+    image: redis
+    container_name: redisDb
+    expose:
+      - 6379
+
+  api:
+    container_name: kotlin-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    links:
+      - redis
+    ports:
+      - 8080:8080
