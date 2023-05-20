@@ -1,4 +1,7 @@
 spring:
+  devtools:
+    restart:
+      log-condition-evaluation-delta: false
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/postgres
@@ -20,3 +23,5 @@ security:
     refreshSecret: "zL1HB3Pch05Avfynovxrf/kpF9O2m4NCWKJUjEp27s9J2jEG3ifiKCGylaZ8fDeoONSTJP/wAzKawB8F9rOMNg=="
     accessExpiration: 6000
     refreshExpiration: 6000
+    type: "Bearer"
+    header: "Authentication"
