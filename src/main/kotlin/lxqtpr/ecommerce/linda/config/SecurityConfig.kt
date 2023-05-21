@@ -29,10 +29,11 @@ class SecurityConfig(
             httpBasic { disable() }
             csrf { disable() }
             authorizeRequests {
-                authorize("/**", permitAll)
+                authorize("/api/*", authenticated)
+                authorize("/api/swagger-ui/*", permitAll)
+                authorize("/api/auth/*", permitAll)
             }
             sessionManagement { SessionCreationPolicy.STATELESS }
-            formLogin { disable() }
             addFilterBefore<BasicAuthenticationFilter>(jwtTokenFilter)
         }
         return http.build()

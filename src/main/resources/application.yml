@@ -21,7 +21,9 @@ security:
   jwt:
     accessSecret: "qBTmv4oXFFR2GwjexDJ4t6fsIUIUhhXqlktXjXdkcyygs8nPVEwMfo29VDRRepYDVV5IkIxBMzr7OEHXEHd37w=="
     refreshSecret: "zL1HB3Pch05Avfynovxrf/kpF9O2m4NCWKJUjEp27s9J2jEG3ifiKCGylaZ8fDeoONSTJP/wAzKawB8F9rOMNg=="
-    accessExpiration: 6000
-    refreshExpiration: 6000
-    type: "Bearer"
-    header: "Authentication"
+    accessExpirationInMinutes: 5
+    refreshExpirationInMinutes: 43200
+
+server:
+  servlet:
+    context-path: "/api"

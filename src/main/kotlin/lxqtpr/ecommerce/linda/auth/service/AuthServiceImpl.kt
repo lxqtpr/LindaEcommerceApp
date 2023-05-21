@@ -2,8 +2,8 @@ package lxqtpr.ecommerce.linda.auth.service
 
 import lxqtpr.ecommerce.linda.auth.jwt.JwtRepository
 import lxqtpr.ecommerce.linda.auth.jwt.JwtService
-import lxqtpr.ecommerce.linda.auth.jwt.TokenTypeEnum
-import lxqtpr.ecommerce.linda.auth.jwt.models.JwtResponse
+import lxqtpr.ecommerce.linda.auth.jwt.models.JwtCookiePair
+import lxqtpr.ecommerce.linda.auth.jwt.models.TokenTypeEnum
 import lxqtpr.ecommerce.linda.models.RoleEntity.RoleEntity
 import lxqtpr.ecommerce.linda.models.RoleEntity.RoleEnum
 import lxqtpr.ecommerce.linda.models.UserEntity.UserRepository
@@ -31,14 +31,13 @@ class AuthServiceImpl(
         userRepository.findByEmail(createUserDto.email)?.let { throw Exception("User already exist") }
         val user = userRepository.save(toUserEntity(createUserDto))
         val tokenPair = jwtService.generateTokenPair(user)
-        val accessCookie = jwtService.generateTokenCookie(TokenTypeEnum.ACCESS, tokenPair.accessToken)
-        val refreshCookie = jwtService.generateTokenCookie(TokenTypeEnum.REFRESH, tokenPair.refreshToken)
+        val cookiePair = jwtService.generateCookiePair(tokenPair)
         jwtRepository.setRefreshToken(user.email, tokenPair.refreshToken)
-        return ResponseUserEntity(user, accessCookie, refreshCookie)
+        return ResponseUserEntity(user, cookiePair)
     }
 
 
-    override fun login(createUserDto: CreateUserDto): JwtResponse {
+    override fun login(createUserDto: CreateUserDto): ResponseUserEntity {
         val authentication = authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(
                 createUserDto.email,
@@ -48,22 +47,32 @@ class AuthServiceImpl(
         SecurityContextHolder.getContext().authentication = authentication
         val user = userRepository.findByEmail(createUserDto.email) ?: throw  NotFoundException()
         if (bCrypt.matches(createUserDto.password, user.password)) {
-            val accessToken: String = jwtService.generateAccessToken(user)
-            val refreshToken: String = jwtService.generateRefreshToken(user)
-            jwtRepository.setRefreshToken(user.email, refreshToken)
-            return JwtResponse(accessToken,refreshToken)
+            val tokenPair = jwtService.generateTokenPair(user)
+            val cookiePair = jwtService.generateCookiePair(tokenPair)
+            jwtRepository.setRefreshToken(user.email, tokenPair.refreshToken)
+            return ResponseUserEntity(user, cookiePair)
         }
         else{
             throw Exception("Password doesn`t match")
         }
     }
 
-    override fun getAccessToken(refreshToken: String): JwtResponse {
-        TODO("Not yet implemented")
+    override fun logout(refreshToken: String): JwtCookiePair {
+        jwtRepository.removeRefreshToken(jwtService.getUserEmailFromClaims(refreshToken, TokenTypeEnum.REFRESH))
+        return jwtService.getLogoutCookie()
     }
 
-    override fun refresh(refreshToken: String): JwtResponse {
-        TODO("Not yet implemented")
+    override fun refreshTokens(refreshToken: String): JwtCookiePair {
+        val isRefreshTokenValid = jwtService.validateRefreshToken(refreshToken)
+        if (isRefreshTokenValid) {
+            userRepository.findByEmail(jwtService.getUserEmailFromClaims(refreshToken, TokenTypeEnum.REFRESH))?.let {
+                val tokenPair = jwtService.generateTokenPair(it)
+                jwtRepository.setRefreshToken(it.email, tokenPair.refreshToken)
+                return jwtService.generateCookiePair(tokenPair)
+            }
+        }
+        throw Exception("Token does`t valid")
+
     }
     private fun toUserEntity(createUserDto: CreateUserDto): UserEntity =
         UserEntity(
