@@ -1,7 +1,8 @@
 package lxqtpr.ecommerce.linda.models.UserEntity.service
 
-import lxqtpr.ecommerce.linda.models.RoleEntity.RoleEnum
+import lxqtpr.ecommerce.linda.models.ProductEntity.models.ProductEntity
 
 interface UserService  {
-    fun getUserRoles(userId: Int):List<RoleEnum>
+    fun getUserCart(userId: Int): List<ProductEntity>
+    fun addProductToCart(userId: Int, productId: Int): List<ProductEntity>
 }

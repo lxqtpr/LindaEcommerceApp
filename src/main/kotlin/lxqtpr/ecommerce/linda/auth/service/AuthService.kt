@@ -6,7 +6,7 @@ import lxqtpr.ecommerce.linda.models.UserEntity.models.ResponseUserEntity
 
 interface AuthService {
     fun register(createUserDto: CreateUserDto) : ResponseUserEntity
-    fun login(authRequest: CreateUserDto): ResponseUserEntity
+    fun login(loginUserDto: CreateUserDto): ResponseUserEntity
     fun logout(refreshToken: String): JwtCookiePair
     fun refreshTokens(refreshToken: String): JwtCookiePair
 }

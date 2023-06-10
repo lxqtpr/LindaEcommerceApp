@@ -27,3 +27,12 @@ security:
 server:
   servlet:
     context-path: "/api"
+
+org:
+  jobrunr:
+    job-scheduler:
+      enabled: true
+    dashboard:
+      enabled: true
+    background-job-server:
+      enabled: true

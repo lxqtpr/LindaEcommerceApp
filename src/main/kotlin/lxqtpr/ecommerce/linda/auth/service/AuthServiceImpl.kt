@@ -4,8 +4,8 @@ import lxqtpr.ecommerce.linda.auth.jwt.JwtRepository
 import lxqtpr.ecommerce.linda.auth.jwt.JwtService
 import lxqtpr.ecommerce.linda.auth.jwt.models.JwtCookiePair
 import lxqtpr.ecommerce.linda.auth.jwt.models.TokenTypeEnum
-import lxqtpr.ecommerce.linda.models.RoleEntity.RoleEntity
 import lxqtpr.ecommerce.linda.models.RoleEntity.RoleEnum
+import lxqtpr.ecommerce.linda.models.RoleEntity.RoleRepository
 import lxqtpr.ecommerce.linda.models.UserEntity.UserRepository
 import lxqtpr.ecommerce.linda.models.UserEntity.models.CreateUserDto
 import lxqtpr.ecommerce.linda.models.UserEntity.models.ResponseUserEntity
@@ -16,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 
 @Service
@@ -23,6 +24,7 @@ class AuthServiceImpl(
     val authenticationManager: AuthenticationManager,
     val bCrypt: BCryptPasswordEncoder,
                       val userRepository: UserRepository,
+    val roleRepository: RoleRepository,
                       val jwtRepository: JwtRepository,
                       val jwtService: JwtService
 
@@ -37,16 +39,16 @@ class AuthServiceImpl(
     }
 
 
-    override fun login(createUserDto: CreateUserDto): ResponseUserEntity {
+    override fun login(loginUserDto: CreateUserDto): ResponseUserEntity {
         val authentication = authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(
-                createUserDto.email,
-                createUserDto.password
+                loginUserDto.email,
+                loginUserDto.password
             )
         )
         SecurityContextHolder.getContext().authentication = authentication
-        val user = userRepository.findByEmail(createUserDto.email) ?: throw  NotFoundException()
-        if (bCrypt.matches(createUserDto.password, user.password)) {
+        val user = userRepository.findByEmail(loginUserDto.email) ?: throw NotFoundException()
+        if (bCrypt.matches(loginUserDto.password, user.password)) {
             val tokenPair = jwtService.generateTokenPair(user)
             val cookiePair = jwtService.generateCookiePair(tokenPair)
             jwtRepository.setRefreshToken(user.email, tokenPair.refreshToken)
@@ -80,7 +82,9 @@ class AuthServiceImpl(
             username = createUserDto.username,
             email = createUserDto.email,
             password = bCrypt.encode(createUserDto.password),
-            roles = mutableListOf(RoleEntity(0,RoleEnum.USER))
+            roles = mutableListOf(roleRepository.findByRole(RoleEnum.USER)),
+            createdAt = LocalDateTime.now(),
+            cart = mutableListOf(),
+            updatedAt = LocalDateTime.now()
         )
-
 }

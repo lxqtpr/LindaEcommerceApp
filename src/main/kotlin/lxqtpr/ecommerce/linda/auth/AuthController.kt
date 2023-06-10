@@ -3,6 +3,7 @@ package lxqtpr.ecommerce.linda.auth
 import lxqtpr.ecommerce.linda.auth.service.AuthService
 import lxqtpr.ecommerce.linda.models.UserEntity.models.CreateUserDto
 import lxqtpr.ecommerce.linda.models.UserEntity.models.UserEntity
+import org.jobrunr.scheduling.JobScheduler
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -10,11 +11,13 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/auth")
 class AuthController(
-    val authService: AuthService
+    val authService: AuthService,
+    val jobService: JobScheduler
 ) {
     @PostMapping("/registration")
     fun registration(@RequestBody createUserDto: CreateUserDto): ResponseEntity<UserEntity> {
         val res = authService.register(createUserDto)
+        jobService.enqueue { print("hello") }
         return ResponseEntity.ok()
             .header(HttpHeaders.SET_COOKIE, res.cookiePair.accessToken)
             .header(HttpHeaders.SET_COOKIE, res.cookiePair.refreshToken)

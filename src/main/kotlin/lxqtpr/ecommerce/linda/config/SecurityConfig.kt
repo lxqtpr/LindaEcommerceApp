@@ -29,9 +29,10 @@ class SecurityConfig(
             httpBasic { disable() }
             csrf { disable() }
             authorizeRequests {
-                authorize("/api/*", authenticated)
-                authorize("/api/swagger-ui/*", permitAll)
-                authorize("/api/auth/*", permitAll)
+                authorize("/v3/api-docs/**", permitAll)
+                authorize("/swagger-ui/**", permitAll)
+                authorize("/auth/**", permitAll)
+                authorize(anyRequest, permitAll)
             }
             sessionManagement { SessionCreationPolicy.STATELESS }
             addFilterBefore<BasicAuthenticationFilter>(jwtTokenFilter)
