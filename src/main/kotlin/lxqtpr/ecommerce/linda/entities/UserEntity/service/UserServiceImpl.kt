@@ -1,8 +1,8 @@
-package lxqtpr.ecommerce.linda.models.UserEntity.service
+package lxqtpr.ecommerce.linda.entities.UserEntity.service
 
-import lxqtpr.ecommerce.linda.models.ProductEntity.ProductRepository
-import lxqtpr.ecommerce.linda.models.ProductEntity.models.ProductEntity
-import lxqtpr.ecommerce.linda.models.UserEntity.UserRepository
+import lxqtpr.ecommerce.linda.entities.ProductEntity.ProductRepository
+import lxqtpr.ecommerce.linda.entities.ProductEntity.models.ProductEntity
+import lxqtpr.ecommerce.linda.entities.UserEntity.UserRepository
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service

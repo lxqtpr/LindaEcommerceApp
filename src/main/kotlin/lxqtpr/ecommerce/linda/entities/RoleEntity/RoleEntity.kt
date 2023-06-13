@@ -1,4 +1,4 @@
-package lxqtpr.ecommerce.linda.models.RoleEntity
+package lxqtpr.ecommerce.linda.entities.RoleEntity
 
 import jakarta.persistence.*
 

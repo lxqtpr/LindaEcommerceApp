@@ -1,3 +1,6 @@
+server:
+  servlet:
+    context-path: "/api"
 spring:
   devtools:
     restart:
@@ -23,10 +26,6 @@ security:
     refreshSecret: "zL1HB3Pch05Avfynovxrf/kpF9O2m4NCWKJUjEp27s9J2jEG3ifiKCGylaZ8fDeoONSTJP/wAzKawB8F9rOMNg=="
     accessExpirationInMinutes: 5
     refreshExpirationInMinutes: 43200
-
-server:
-  servlet:
-    context-path: "/api"
 
 org:
   jobrunr:

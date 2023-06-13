@@ -1,7 +1,7 @@
-package lxqtpr.ecommerce.linda.models.UserEntity
+package lxqtpr.ecommerce.linda.entities.UserEntity
 
 
-import lxqtpr.ecommerce.linda.models.UserEntity.service.UserService
+import lxqtpr.ecommerce.linda.entities.UserEntity.service.UserService
 import org.springframework.web.bind.annotation.*
 
 @RestController

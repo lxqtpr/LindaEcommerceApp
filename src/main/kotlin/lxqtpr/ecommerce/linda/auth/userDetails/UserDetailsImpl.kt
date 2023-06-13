@@ -1,6 +1,6 @@
 package lxqtpr.ecommerce.linda.auth.userDetails
 
-import lxqtpr.ecommerce.linda.models.UserEntity.models.UserEntity
+import lxqtpr.ecommerce.linda.entities.UserEntity.models.UserEntity
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 

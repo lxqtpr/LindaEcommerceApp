@@ -1,11 +1,11 @@
-package lxqtpr.ecommerce.linda.models.UserEntity.models
+package lxqtpr.ecommerce.linda.entities.UserEntity.models
 
 import jakarta.persistence.*
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
-import lxqtpr.ecommerce.linda.models.ProductEntity.models.ProductEntity
-import lxqtpr.ecommerce.linda.models.RoleEntity.RoleEntity
+import lxqtpr.ecommerce.linda.entities.ProductEntity.models.ProductEntity
+import lxqtpr.ecommerce.linda.entities.RoleEntity.RoleEntity
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
@@ -37,7 +37,6 @@ class UserEntity(
         inverseJoinColumns = [JoinColumn(name = "roles_id")]
     )
     var roles: List<RoleEntity>,
-
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

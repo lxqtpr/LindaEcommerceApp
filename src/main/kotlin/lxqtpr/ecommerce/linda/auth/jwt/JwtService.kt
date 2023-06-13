@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j
 import lxqtpr.ecommerce.linda.auth.jwt.models.JwtCookiePair
 import lxqtpr.ecommerce.linda.auth.jwt.models.JwtTokenPair
 import lxqtpr.ecommerce.linda.auth.jwt.models.TokenTypeEnum
-import lxqtpr.ecommerce.linda.models.UserEntity.models.UserEntity
+import lxqtpr.ecommerce.linda.entities.UserEntity.models.UserEntity
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value

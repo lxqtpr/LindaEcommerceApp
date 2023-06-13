@@ -1,7 +1,7 @@
 package lxqtpr.ecommerce.linda.auth.userDetails
 
-import lxqtpr.ecommerce.linda.models.UserEntity.UserRepository
-import lxqtpr.ecommerce.linda.models.UserEntity.models.UserEntity
+import lxqtpr.ecommerce.linda.entities.UserEntity.UserRepository
+import lxqtpr.ecommerce.linda.entities.UserEntity.models.UserEntity
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException

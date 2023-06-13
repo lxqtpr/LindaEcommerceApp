@@ -1,8 +1,8 @@
 package lxqtpr.ecommerce.linda.auth.service
 
 import lxqtpr.ecommerce.linda.auth.jwt.models.JwtCookiePair
-import lxqtpr.ecommerce.linda.models.UserEntity.models.CreateUserDto
-import lxqtpr.ecommerce.linda.models.UserEntity.models.ResponseUserEntity
+import lxqtpr.ecommerce.linda.entities.UserEntity.models.CreateUserDto
+import lxqtpr.ecommerce.linda.entities.UserEntity.models.ResponseUserEntity
 
 interface AuthService {
     fun register(createUserDto: CreateUserDto) : ResponseUserEntity

@@ -1,3 +1,3 @@
-package lxqtpr.ecommerce.linda.models.UserEntity.models
+package lxqtpr.ecommerce.linda.entities.UserEntity.models
 
 data class CreateUserDto(val username: String, val email: String, var password: String)
